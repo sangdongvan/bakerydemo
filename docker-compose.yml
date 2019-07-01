@@ -1,6 +1,11 @@
 version: '2'
 
 services:
+  app-base:
+    image: sangdongvan/bakerydemo-rest-cache
+    build:
+      context: .
+      dockerfile: ./Dockerfile.base
   db:
     environment:
       POSTGRES_DB: app_db
@@ -39,3 +44,8 @@ services:
       - db
       - redis
       - elasticsearch
+    volumes:
+      - ./:/code
+    # Super useful command to keep the container alive while developing
+    # You need to go in the container and `make runserver`
+    command: ["tail", "-f", "/dev/null"]
